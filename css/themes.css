@@ -1,0 +1,118 @@
+[data-theme="anemo"] {
+   --color-theme-base: rgb(55, 240, 180);
+   --color-accent-base: rgb(5, 75, 55);
+   --color-text-base: rgb(0, 25, 15);
+   --color-main-base: rgb(225, 255, 245);
+   --bg-img: url("https://api.genshin.dev/elements/anemo/icon");
+}
+
+[data-theme="cryo"] {
+   --color-theme-base: rgb(120, 230, 225);
+   --color-accent-base: rgb(0, 105, 100);
+   --color-text-base: rgb(0, 30, 25);
+   --color-main-base: rgb(220, 255, 255);
+   --bg-img: url("https://api.genshin.dev/elements/cryo/icon");
+}
+
+[data-theme="dendro"] {
+   --color-theme-base: rgb(165, 200, 60);
+   --color-accent-base: rgb(80, 100, 30);
+   --color-text-base: rgb(15, 20, 5);
+   --color-main-base: rgb(240, 245, 225);
+   --bg-img: url("https://api.genshin.dev/elements/dendro/icon");
+}
+
+[data-theme="electro"] {
+   --color-theme-base: rgb(235, 160, 250);
+   --color-accent-base: rgb(125, 10, 150);
+   --color-text-base: rgb(30, 0, 35);
+   --color-main-base: rgb(250, 235, 255);
+   --bg-img: url("https://api.genshin.dev/elements/electro/icon");
+}
+
+[data-theme="geo"] {
+   --color-theme-base: rgb(250, 210, 5);
+   --color-accent-base: rgb(120, 100, 0);
+   --color-text-base: rgb(30, 30, 0);
+   --color-main-base: rgb(255, 250, 215);
+   --bg-img: url("https://api.genshin.dev/elements/geo/icon");
+}
+
+[data-theme="hydro"] {
+   --color-theme-base: rgb(5, 190, 245);
+   --color-accent-base: rgb(5, 105, 135);
+   --color-text-base: rgb(0, 25, 30);
+   --color-main-base: rgb(215, 245, 255);
+   --bg-img: url("https://api.genshin.dev/elements/hydro/icon");
+}
+
+[data-theme="pyro"] {
+   --color-theme-base: rgb(245, 115, 65);
+   --color-accent-base: rgb(165, 50, 5);
+   --color-text-base: rgb(30, 10, 0);
+   --color-main-base: rgb(255, 235, 225);
+   --bg-img: url("https://api.genshin.dev/elements/pyro/icon");
+}
+
+:root {
+   --color-theme: var(--color-theme-base);
+   --color-accent: var(--color-accent-base);
+   --color-text: var(--color-text-base);
+   --color-main: var(--color-main-base);
+}
+
+.theme-panel {
+   position: absolute;
+   top: 50%;
+   transform: translateY(-45%);
+   z-index: 10;
+   transition: 1s;
+}
+.theme-tab {
+   position: absolute;
+   right: -30px;
+   top: 45%;
+   transition: 1s;
+}
+.theme-tab i {
+   font-size: 1.5rem;
+   color: var(--color-theme-base);
+   opacity: 0.625;
+   text-shadow: 0 0 3.75px var(--color-text-base);
+}
+.panel-items {
+   border: 1px solid  white;
+   box-shadow: 2.5px 0 10px var(--color-accent);
+   background-image: linear-gradient(to right, var(--color-accent-base), var(--color-theme-base));
+   padding: 20px 0;
+   width: 75px;
+   text-align: center;
+   overflow: hidden;
+}
+.panel-items.themes {
+   border-top-right-radius: 50px;
+}
+.panel-items.mood {
+   border-bottom-right-radius: 50px;
+}
+.panel-items i {
+   color: var(--color-main);
+   font-size: 2rem;
+}
+.panel-items img { width: 40px; }
+.theme-panel img:hover,
+.theme-panel i:hover { cursor: pointer; }
+
+.theme-bg-image {
+   position: absolute;
+   top: 40px;
+   left: 50%;
+   transform: translateX(-50%);
+   width: 100px;
+   height: 100px;
+   z-index: -1;
+   background-image: var(--bg-img);
+   background-repeat: no-repeat;
+   background-size: cover;
+   transition: 1s;
+}

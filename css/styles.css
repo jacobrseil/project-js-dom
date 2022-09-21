@@ -1,0 +1,85 @@
+/*----
+HEADER
+----*/
+header {
+   color: var(--color-theme);
+   display: flex;
+   align-items: center;
+   margin: 15px 20px;
+}
+header .logo {
+   margin-right: auto;
+   transition: 1s;
+}
+header div {
+   margin-left: 30px;
+   font-size: 1.25rem;
+   font-weight: bolder;
+   transition: 1s;
+}
+header .logo:hover,
+header div:hover { cursor: pointer; }
+header div:hover,
+header .highlighted {
+   color: var(--color-accent);
+   text-shadow: 0 2.5px 5px var(--color-theme);
+}
+header .highlighted { font-size: 1.5rem; }
+
+/*----
+BANNER
+----*/
+.banner {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-51%, -55%);
+   transition: 1s;
+}
+
+/*---
+FRAME
+---*/
+/* main */
+.gallery {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin-top: 100px;
+   opacity: 0;
+   transition: 1s;
+}
+
+/* list */
+.item-catalogue {
+   display: flex;
+   align-items: center;
+}
+.item-catalogue li {
+   margin: 0 20px;
+   min-width: 80px;
+   max-width: 80px;
+   max-height: 80px;
+   text-align: center;
+   border-radius: 50%;
+   box-shadow: 0 0 10px var(--color-accent), 0 0 10px var(--color-accent) inset;
+   transition: 1s;
+}
+.item-catalogue li img {
+   width: 100%;
+   border-radius: 50%;
+}
+.item-catalogue li img:hover { cursor: pointer; }
+/*selected-item-reference*/.item-catalogue li:nth-child(5) { max-width: 120px; min-width: 120px; max-height: 120px; margin: 0; }
+
+/*----
+FOOTER
+----*/
+footer {
+   position: absolute;
+   right: 0;
+   bottom: 1rem;
+   left: 0;
+   text-align: center;
+   transition: 1s;
+}

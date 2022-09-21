@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="anemo" data-mood="bright">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <link rel="stylesheet" href="./css/themes.css">
+   <link rel="stylesheet" href="./css/defaults.css">
+   <link rel="stylesheet" href="./css/styles.css">
+   <title>Project js-dom</title>
+</head>
+<body>
+   <header>
+      <h3 class="logo">GIDB</h3>
+      <div class="gallery-link" data-name="characters">Characters</div>
+      <div class="gallery-link" data-name="enemies">Enemies</div>
+      <div class="gallery-link" data-name="nations">Regions</div>
+   </header>
+
+   <div class="theme-panel" style="left: -80px;">
+      <div class="theme-tab" style="transform: rotate(0deg);">
+         <i class="fa-solid fa-play"></i>
+      </div>
+      <div class="panel-items themes">
+         <img class="theme-icon" data-theme="anemo" src="https://api.genshin.dev/elements/anemo/icon" alt="anemo icon">
+         <img class="theme-icon" data-theme="cryo" src="https://api.genshin.dev/elements/cryo/icon" alt="cryo icon">
+         <img class="theme-icon" data-theme="dendro" src="https://api.genshin.dev/elements/dendro/icon" alt="dendro icon">
+         <img class="theme-icon" data-theme="electro" src="https://api.genshin.dev/elements/electro/icon" alt="electro icon">
+         <img class="theme-icon" data-theme="geo" src="https://api.genshin.dev/elements/geo/icon" alt="geo icon">
+         <img class="theme-icon" data-theme="hydro" src="https://api.genshin.dev/elements/hydro/icon" alt="hydro icon">
+         <img class="theme-icon" data-theme="pyro" src="https://api.genshin.dev/elements/pyro/icon" alt="pyro icon">
+      </div>
+      <div class="panel-items mood">
+         <div class="lightbulb">
+            <i class="fa-solid fa-lightbulb"></i>
+         </div>
+      </div>
+   </div>
+   <div class="theme-bg-image"></div>
+
+   <img class="banner" src="https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/2465517595f5ea9f225d52ed73a4d0db.png" alt="main genshin impact logo">
+
+   <section class="gallery">
+      <ul class="item-catalogue"></ul>
+      <div class="displayed-item">
+         <div class="item-portrait"></div>
+         <div class="item-plaque">
+            <div class="plaque-header">
+               <div class="item-name"></div>
+               <i class="fa-solid fa-heart-circle-plus"></i>
+            </div>
+            <ul class="plaque-body"></ul>
+         </div>
+      </div>
+   </section>
+
+   <footer>Created by Jacob Seil</footer>
+
+   <script src="./js/main.js"></script>
+</body>
+</html>

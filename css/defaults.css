@@ -1,0 +1,27 @@
+@font-face {
+   font-family: genshinFont;
+   src: url(../assets/fonts/genshin-font.ttf);
+}
+
+html { user-select: none; }
+
+*, *::before, *::after {
+   box-sizing: border-box;
+}
+
+body {
+   margin: 0;
+   background-color: var(--color-main);
+   color: var(--color-text);
+   font-family: genshinFont;
+   transition: 1s;
+}
+
+h2 { font-size: 3rem; }
+h3 { font-size: 2rem; }
+h2, h3 { margin: 0; }
+
+ul {
+   list-style: none;
+   padding-inline-start: 0;
+}
