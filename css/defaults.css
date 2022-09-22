@@ -14,7 +14,7 @@ body {
    background-color: var(--color-main);
    color: var(--color-text);
    font-family: genshinFont;
-   transition: 1s;
+   transition: 0.5s;
 }
 
 h2 { font-size: 3rem; }
