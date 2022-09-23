@@ -161,6 +161,7 @@ RESPONSIVE
 @media (max-width: 1024px) {
    h2 { font-size: 2rem; }
    header div { font-size: 1rem; }
+   header .highlighted { font-size: 1.25rem; }
    .theme-panel {
       transform-origin: left;
       transform: scale(80%) translateX(20%) translateY(-45%); }
