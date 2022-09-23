@@ -10,6 +10,7 @@ html { user-select: none; }
 }
 
 body {
+   overflow-x: hidden;
    margin: 0;
    background-color: var(--color-main);
    color: var(--color-text);
