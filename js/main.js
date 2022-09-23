@@ -8,13 +8,14 @@
 const root = document.documentElement;
 const gallery = document.querySelector('.gallery');
 const banner = document.querySelector('.banner');
+const itemDisplay = document.querySelector('.displayed-item');
 const itemCatalogue = document.querySelector('.item-catalogue');
 const galleryLinks = document.querySelectorAll('.gallery-link');
 
 let systemBusy = false;
-let windowResizing = false;
 let galleryName = '';
 let galleryItems = [];
+let itemAttributes = [];
 let catalogueIndex = 0;
 let catalogueItemLimit = Math.floor((window.innerWidth * 0.8) / 120);
 
@@ -61,14 +62,46 @@ function removeLinkHighlight() {
 
 //catalogue controls
 async function selectCatalogueItem(catalogueItem) {
-   const itemName = catalogueItem.dataset.name;
+   let itemName = catalogueItem.dataset.name;
    const itemData = fetch(`https://api.genshin.dev/${galleryName}/${itemName}`);
    const previousSelection = document.querySelector('.selected');
+   const portraitContainer = document.querySelector('.item-portrait');
 
+   //prep display
    if (previousSelection) { previousSelection.classList.remove('selected'); }
    catalogueItem.classList.add('selected');
+   itemDisplay.style.opacity = '0';
+   await sleep(500);
 
-   await getJsonData(itemData).then((data) => console.log(data));
+   //clear item data
+   removeChildren(portraitContainer);
+
+   //build new item
+   await getJsonData(itemData).then((data) => {
+      itemAttributes = galleryName === 'characters'
+         ? [data.name, data.title, data.description]
+         : galleryName === 'enemies'
+         ? [data.name, data.family, data.description]
+         : [data.name, data.archon, data.controllingEntity];
+   });
+
+   if (galleryName === 'nations') {
+      itemName = itemName
+         .replace('mondstadt', 'venti')
+         .replace('liyue', 'zhongli')
+         .replace('inazuma', 'raiden');
+   }
+   const portrait = document.createElement('img');
+   portrait.setAttribute('src', `https://api.genshin.dev/${galleryName === 'nations' ? 'characters' : galleryName}/${itemName}/${galleryName === 'nations' ? 'gacha-splash' : 'portrait'}`);
+   portraitContainer.appendChild(portrait);
+   document.querySelector('.item-name').innerHTML = itemAttributes[0];
+   document.querySelector('.plaque-body').innerHTML =
+      `<br><strong>${galleryName === 'characters' ? 'Title'
+         : galleryName === 'enemies' ? 'Family'
+         : 'Deity'}: ${itemAttributes[1]}</strong><br><br>
+      ${galleryName === 'nations' ? `<strong>Governing Body:</strong> ${itemAttributes[2]}` : `<em>"${itemAttributes[2]}"</em>`}`;
+
+   itemDisplay.style.opacity = '1';
 }
 
 function updateCatalogueIndex() {
@@ -96,6 +129,8 @@ function populateCatalogue(referenceNode = null, specifiedCount = null) {
       catalogueItem.dataset.name = itemName;
       itemImage.setAttribute('src', `https://api.genshin.dev/${galleryName}/${itemName}/icon`);
       catalogueItem.addEventListener('click', async function() {
+         if (systemBusy) { return; }
+         limitUserActions(1000);
          selectCatalogueItem(this);
       })
    }
@@ -103,19 +138,28 @@ function populateCatalogue(referenceNode = null, specifiedCount = null) {
 }
 
 function setCatalogueWidth(itemLimit) {
-   root.style.setProperty('--catalogue-width', `${itemLimit * 120}px`);
+   const itemCount = itemCatalogue.childElementCount;
+   const itemsOnScreen = itemCount === galleryItems.length && itemCount < itemLimit
+      ? itemCount : itemLimit;
+   root.style.setProperty('--catalogue-width', `${itemsOnScreen * 120}px`);
 }
 
 function resizeCatalogue() {
-   if (!itemCatalogue.firstChild) { return; }
-
    const newItemLimit = Math.floor((window.innerWidth * 0.8) / 120);
    const difference = Math.abs(catalogueItemLimit - newItemLimit);
 
    if (!difference) { return; }
 
+   if (!itemCatalogue.firstChild) {
+      setCatalogueWidth(newItemLimit);
+      catalogueItemLimit = newItemLimit;
+      return;
+   }
+
    if (newItemLimit < catalogueItemLimit) {
-      removeChildren(itemCatalogue, difference);
+      const realEstate = catalogueItemLimit - itemCatalogue.childElementCount;
+      const remainder = difference - realEstate;
+      removeChildren(itemCatalogue, remainder >= 0 ? remainder : 0);
       updateCatalogueIndex();
    } else { populateCatalogue(null, difference); }
 
@@ -126,6 +170,8 @@ function resizeCatalogue() {
 // ----------
 // Initialize
 // ----------
+let windowResizing = false;
+
 setCatalogueWidth(catalogueItemLimit);
 
 window.onresize = () => {
@@ -179,6 +225,7 @@ for (const link of galleryLinks) {
       removeLinkHighlight();
       link.classList.add('highlighted');
       banner.style.opacity = '0';
+      itemDisplay.style.opacity = '0';
       gallery.style.opacity = '0';
       gallery.style.display = 'flex';
       await sleep(500);
@@ -193,6 +240,7 @@ for (const link of galleryLinks) {
 
       //populate initial catalogue items
       populateCatalogue();
+      setCatalogueWidth(catalogueItemLimit);
       selectCatalogueItem(itemCatalogue.firstChild);
 
       gallery.style.opacity = '1';
@@ -207,6 +255,7 @@ const catalogueIndexers = document.querySelectorAll('[data-direction]');
 for (const indexer of catalogueIndexers) {
    indexer.addEventListener('click', async function() {
       if (systemBusy) { return; }
+      if (itemCatalogue.childElementCount === galleryItems.length) { return; }
       limitUserActions(1000);
 
       const direction = this.dataset.direction;
@@ -223,12 +272,14 @@ for (const indexer of catalogueIndexers) {
       itemsAdded = totalItems - catalogueItemLimit;
       root.style.setProperty('--animation-distance', `-${itemsAdded * 120}px`);
 
-      //animate catalogue
+      //animate catalogue (bg-img gradients made temporary bc they can't transition with theme)
+      for(const indexer of catalogueIndexers) { indexer.dataset.gradient = ''; }
       itemCatalogue.dataset.animation = direction === 'back' ? 'back' : 'forward';
 
-      //wait for animation to finish and reset data attribute
+      //wait for animation to finish and reset data attributes
       await endOfAnimation(itemCatalogue);
       delete itemCatalogue.dataset.animation;
+      for(const indexer of catalogueIndexers) { delete indexer.dataset.gradient; }
 
       //remove number of items added from opposite end of catalogue
       if (direction === 'back') { referenceIndex = totalItems - 1; }
@@ -262,17 +313,6 @@ function toggleMood() {
    setTheme([colorAccent, colorTheme, colorMain, colorText]);
 }
 
-//duct-tape fix for lack of transition functionality with background-image gradients
-async function peekABooGradient() {
-   for(const indexer of catalogueIndexers) {
-      delete indexer.dataset.gradient;
-   }
-   await endOfTransition(document.body);
-   for(const indexer of catalogueIndexers) {
-      indexer.dataset.gradient = '';
-   }
-}
-
 //user controls
 for (const element of themeElements) {
    element.addEventListener('click', function() {
@@ -285,7 +325,6 @@ for (const element of themeElements) {
       if (root.dataset.mood === 'dim') {
          toggleMood();
       }
-      peekABooGradient();
    })
 }
 
@@ -294,7 +333,6 @@ document.querySelector('.lightbulb').addEventListener('click', function() {
    limitUserActions(500);
 
    toggleMood();
-   peekABooGradient();
    root.dataset.mood = root.dataset.mood === 'bright' ? 'dim' : 'bright';
 })
 

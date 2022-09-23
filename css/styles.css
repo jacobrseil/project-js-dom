@@ -95,7 +95,12 @@ GALLERY
    box-shadow: 0 0 10px var(--color-accent), 0 0 10px var(--color-accent) inset;
    transition: 0.5s;
 }
-.item-catalogue li.selected { max-width: 120px; min-width: 120px; max-height: 120px; margin: 0; }
+.item-catalogue li.selected {
+   max-width: 120px;
+   min-width: 120px;
+   max-height: 120px;
+   margin: 0;
+}
 .item-catalogue li img {
    width: 100%;
    border-radius: 50%;
@@ -103,6 +108,24 @@ GALLERY
 .item-catalogue li img:hover { cursor: pointer; }
 
 /* item */
+.displayed-item {
+   opacity: 0;
+   transition: 0.5s;
+   width: 90vw;
+   display: flex;
+   gap: 20px;
+}
+
+.item-portrait img {
+   max-width: 35vw;
+   max-height: 55vh;
+}
+
+.item-plaque { flex: 1; }
+.plaque-header {
+   display: flex;
+   align-items: center;
+}
 .plaque-header i {
    font-size: 2rem;
    color: palevioletred;
@@ -130,4 +153,16 @@ ANIMATIONS
 @keyframes indexCatalogue {
    0% { transform: translateX(0); }
    100% { transform: translateX(var(--animation-distance)); }
+}
+
+/*--------
+RESPONSIVE
+--------*/
+@media (max-width: 1024px) {
+   h2 { font-size: 2rem; }
+   header div { font-size: 1rem; }
+   header .highlighted { font-size: 1.25rem; }
+   .theme-panel {
+      transform-origin: left;
+      transform: scale(80%) translateX(20%) translateY(-45%); }
 }
