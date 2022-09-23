@@ -66,19 +66,20 @@
    top: 50%;
    transform: translateY(-45%);
    z-index: 10;
-   transition: 1s;
+   transition: 0.5s;
 }
 .theme-tab {
    position: absolute;
    right: -30px;
    top: 45%;
-   transition: 1s;
+   transition: 0.5s;
 }
 .theme-tab i {
    font-size: 1.5rem;
    color: var(--color-theme-base);
    opacity: 0.625;
    text-shadow: 0 0 3.75px var(--color-text-base);
+   transition: 0.5s;
 }
 .panel-items {
    border: 1px solid  white;
@@ -108,11 +109,11 @@
    top: 40px;
    left: 50%;
    transform: translateX(-50%);
-   width: 100px;
-   height: 100px;
+   width: 80px;
+   height: 80px;
    z-index: -1;
    background-image: var(--bg-img);
    background-repeat: no-repeat;
    background-size: cover;
-   transition: 1s;
+   transition: 0.5s;
 }

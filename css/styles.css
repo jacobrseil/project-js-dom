@@ -9,13 +9,13 @@ header {
 }
 header .logo {
    margin-right: auto;
-   transition: 1s;
+   transition: 0.5s;
 }
 header div {
    margin-left: 30px;
    font-size: 1.25rem;
    font-weight: bolder;
-   transition: 1s;
+   transition: 0.5s;
 }
 header .logo:hover,
 header div:hover { cursor: pointer; }
@@ -34,27 +34,57 @@ BANNER
    top: 50%;
    left: 50%;
    transform: translate(-51%, -55%);
-   transition: 1s;
+   transition: 0.5s;
+   z-index: -1;
 }
 
-/*---
-FRAME
----*/
-/* main */
+/*-----
+GALLERY
+-----*/
 .gallery {
-   display: flex;
+   display: none;
    flex-direction: column;
    align-items: center;
-   margin-top: 100px;
+   margin-top: 60px;
    opacity: 0;
-   transition: 1s;
+   transition: 0.5s;
 }
 
-/* list */
-.item-catalogue {
+/* catalogue */
+.catalogue-container {
+   position: relative;
+   width: 100%;
    display: flex;
    align-items: center;
 }
+.catalogue-container i {
+   position: absolute;
+   padding: 55px 5vw;
+   font-size: 2rem;
+   color: var(--color-theme-base);
+   text-shadow: 0 0 3.75px var(--color-text-base);
+   transition: 0.5s;
+   z-index: 5;
+}
+.catalogue-container i:hover { cursor: pointer; }
+.catalogue-container i:first-child {
+   left: 0px;
+   transform: rotate(180deg);
+}
+.catalogue-container i:last-child { right: 0; }
+.catalogue-container i[data-gradient] { background-image: linear-gradient(to left, var(--color-main) 75%, transparent 100%); }
+
+.item-catalogue {
+   margin-left: calc(50vw - calc(var(--catalogue-width) / 2));
+   display: flex;
+   height: 120px;
+   align-items: center;
+   animation-duration: 1s;
+   animation-timing-function: ease-in-out;
+}
+.item-catalogue[data-animation="back"] { animation-direction: reverse; }
+.item-catalogue[data-animation="back"],
+.item-catalogue[data-animation="forward"] { animation-name: indexCatalogue; }
 .item-catalogue li {
    margin: 0 20px;
    min-width: 80px;
@@ -63,14 +93,24 @@ FRAME
    text-align: center;
    border-radius: 50%;
    box-shadow: 0 0 10px var(--color-accent), 0 0 10px var(--color-accent) inset;
-   transition: 1s;
+   transition: 0.5s;
 }
+.item-catalogue li.selected { max-width: 120px; min-width: 120px; max-height: 120px; margin: 0; }
 .item-catalogue li img {
    width: 100%;
    border-radius: 50%;
 }
 .item-catalogue li img:hover { cursor: pointer; }
-/*selected-item-reference*/.item-catalogue li:nth-child(5) { max-width: 120px; min-width: 120px; max-height: 120px; margin: 0; }
+
+/* item */
+.plaque-header i {
+   font-size: 2rem;
+   color: palevioletred;
+   margin-left: auto;
+}
+.plaque-header i:hover {
+   cursor: pointer;
+}
 
 /*----
 FOOTER
@@ -81,5 +121,13 @@ footer {
    bottom: 1rem;
    left: 0;
    text-align: center;
-   transition: 1s;
+   transition: 0.5s;
+}
+
+/*--------
+ANIMATIONS
+--------*/
+@keyframes indexCatalogue {
+   0% { transform: translateX(0); }
+   100% { transform: translateX(var(--animation-distance)); }
 }
